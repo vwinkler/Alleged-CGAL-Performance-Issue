@@ -4,12 +4,14 @@ enable_testing()
 
 project (CGALAllegedBug C CXX)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/")
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 
 find_package(CGAL REQUIRED)
-add_compile_definitions(CGAL_LINKED_WITH_TBB)
 
 find_package(TBB REQUIRED COMPONENTS tbbmalloc)
+find_package(Threads REQUIRED)
 
 include_directories(
   SYSTEM
@@ -24,6 +26,7 @@ add_executable (a.out
 )
 
 target_link_libraries(a.out
+  ${CMAKE_THREAD_LIBS_INIT}
   ${CGAL_LIBRARY}
   ${TBB_LIBRARIES}
   ${TBB_MALLOC_LIBRARIES}
